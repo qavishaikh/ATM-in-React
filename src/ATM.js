@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ATMP() {
+function CurrencyConverter() {
   const [p, setP] = useState('');
   const [denominations, setDenominations] = useState({
     fiveThousand: 0,
@@ -50,16 +50,23 @@ function ATMP() {
 
   return (
     <div>
-      <label>Enter PKR: </label>
+      <label>Enter pKR: </label>
       <input type="number" value={p} onChange={handleInputChange} />
       <div>User Inputs: {p}</div>
-      {Object.entries(denominations).map(([denomination, value]) => (
-        <div key={denomination}>
-          {denomination.charAt(0).toUpperCase() + denomination.slice(1)}: {value}
-        </div>
-      ))}
+      <div>
+        {Object.entries(denominations).map(([denomination, value]) => {
+          if (value !== 0) {
+            return (
+              <div key={denomination}>
+                {denomination.charAt(0).toUpperCase() + denomination.slice(1)}: {value}
+              </div>
+            );
+          }
+          return null;
+        })}
+      </div>
     </div>
   );
 }
 
-export default ATMP;
+export default CurrencyConverter;

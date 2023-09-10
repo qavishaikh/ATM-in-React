@@ -1,29 +1,24 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class CurrencyConverter extends Component {
-  constructor() {
-    super();
-    this.state = {
-      p: '',
-      fiveThousand: 0,
-      oneThousand: 0,
-      fiveHundred: 0,
-      oneHundred: 0,
-      fifty: 0,
-      ten: 0,
-      remaining: 0,
-    };
-  }
+function ATMP() {
+  const [p, setP] = useState('');
+  const [denominations, setDenominations] = useState({
+    fiveThousand: 0,
+    oneThousand: 0,
+    fiveHundred: 0,
+    oneHundred: 0,
+    fifty: 0,
+    ten: 0,
+    remaining: 0,
+  });
 
-  handleInputChange = (e) => {
+  const handleInputChange = (e) => {
     const inputValue = e.target.value;
-    this.setState({ p: inputValue }, () => {
-      this.calculateCurrency();
-    });
+    setP(inputValue);
+    calculateCurrency(inputValue);
   };
 
-  calculateCurrency = () => {
-    const { p } = this.state;
+  const calculateCurrency = (p) => {
     const fiveThousand = Math.floor(p / 5000);
     const remainingAfterFiveThousand = p % 5000;
 
@@ -38,11 +33,11 @@ class CurrencyConverter extends Component {
 
     const fifty = Math.floor(remainingAfterOneHundred / 50);
     const remainingAfterFifty = remainingAfterOneHundred % 50;
-    
+
     const ten = Math.floor(remainingAfterFifty / 10);
     const remaining = remainingAfterFifty % 10;
 
-    this.setState({
+    setDenominations({
       fiveThousand,
       oneThousand,
       fiveHundred,
@@ -53,24 +48,18 @@ class CurrencyConverter extends Component {
     });
   };
 
-  render() {
-    const { p, fiveThousand, oneThousand, fiveHundred, oneHundred, fifty, ten, remaining } = this.state;
-
-    return (
-      <div>
-        <label>Enter pKR: </label>
-        <input type="number" value={p} onChange={this.handleInputChange} />
-        <div>User Inputs: {p}</div>
-        <div>5000: {fiveThousand}</div>
-        <div>1000: {oneThousand}</div>
-        <div>500: {fiveHundred}</div>
-        <div>100: {oneHundred}</div>
-        <div>50: {fifty}</div>
-        <div>10: {ten}</div>
-        <div>Remaining: {remaining}</div>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <label>Enter PKR: </label>
+      <input type="number" value={p} onChange={handleInputChange} />
+      <div>User Inputs: {p}</div>
+      {Object.entries(denominations).map(([denomination, value]) => (
+        <div key={denomination}>
+          {denomination.charAt(0).toUpperCase() + denomination.slice(1)}: {value}
+        </div>
+      ))}
+    </div>
+  );
 }
 
-export default CurrencyConverter;
+export default ATMP;

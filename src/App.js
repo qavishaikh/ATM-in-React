@@ -1,11 +1,11 @@
 import React from 'react';
-import ATM from './ATM'
 import './App.css'
+import Switch from './Switch'
 
 function App() {
   return (
     <div className='App'>
-      <ATM />
+      <Switch />
     </div>
   );
 }
